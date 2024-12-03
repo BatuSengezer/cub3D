@@ -1,0 +1,24 @@
+
+NO   ./maps/testure.xpm
+  SO  ./maps/texture.xpm
+
+F 22,55,66
+WE   ./maps/testure.xpm
+
+
+								   
+
+EA   ./maps/testure.xpm
+NO ./maps/texture.xpm
+C   0,+44,7
+
+111111111111
+100000000001
+100010000001
+100000000001
+100001000001
+100000000001
+1000N0001001
+100000001001
+100000000001
+111111111111
