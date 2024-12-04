@@ -6,12 +6,11 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:56:47 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/04 15:11:16 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/04 19:30:27 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 void	init_scenery(t_scenery *scenery)
 {
@@ -54,17 +53,14 @@ void	init_player(t_player *player)
 	player->x = 0;
 	player->y = 0;
 	player->angle = 0;
-
 	player->speed = 10;
-	player->angle_speed = 0.2;
-	
+	player->angle_speed = 0.09;
 	player->key_up = 0;
 	player->key_down = 0;
 	player->key_left = 0;
 	player->key_right = 0;
 	player->left_rotate = 0;
 	player->right_rotate = 0;
-
 }
 
 void	init_game(t_game *game)
@@ -73,6 +69,7 @@ void	init_game(t_game *game)
 	game->win = NULL;
 	init_img(&game->img);
 	init_player(&game->player);
+	game->wall_collision = 0;
 }
 
 void	init(t_data *data)

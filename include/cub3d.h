@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:47:53 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/04 14:34:47 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/04 16:16:36 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_game
 	void		*win;
 	t_img		img;
 	t_player	player;
+	int			wall_collision;
 }	t_game;
 
 typedef struct s_map
