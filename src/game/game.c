@@ -59,8 +59,8 @@ void	draw_rays(int x, int y, int color, t_data *data)
 		while (!collision(data, ray_x, ray_y))
 		{
 			my_pixel_put(&data->game.img, ray_x, ray_y, color);
-			ray_x += cos_angle;
-			ray_y += sin_angle;
+			ray_x += cos_angle * 0.5;
+			ray_y += sin_angle * 0.5;
 		}
 		start_x += fraction;
 		i++;
