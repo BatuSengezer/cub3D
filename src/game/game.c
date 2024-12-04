@@ -33,35 +33,78 @@ int	collision(t_data *data, int x, int y)
 	map = data->map.map_tab;
 	px = x / BLOCK;
 	py = y / BLOCK;
-	// if (px < 0 || py < 0 || px + 32 >= HEIGHT || py + 32 >= WIDTH)
-	// 	return (1);
+	
+
+	if (px < 0 || py < 0 || px >= data->map.width || py >= data->map.height)
+		return (1);
+	
 	if (map[py][px] == '1')
 		return (1);
 	return (0);
 }
 
-void	draw_rays(int x, int y, int color, t_data *data)
+static void	draw_vertical_line(t_data *data, int x, int wall_height, int color)
 {
-	float	cos_angle;
-	float	sin_angle;
+	int	draw_start;
+	int	draw_end;
+	int	y;
+
+	draw_start = (HEIGHT - wall_height) / 2;
+	draw_end = draw_start + wall_height;
+	// Draw ceiling
+	y = 0;
+	while (y < draw_start)
+		my_pixel_put(&data->game.img, x, y++, color);
+	// Draw wall
+	while (y < draw_end)
+		my_pixel_put(&data->game.img, x, y++, 0xFFFFFF);
+	// Draw floor
+	while (y < HEIGHT)
+		my_pixel_put(&data->game.img, x, y++, 0x666666);
+}
+
+static float	get_wall_distance(t_data *data, float start_x, float x, float y)
+{
+	float	distance;
 	float	ray_x;
 	float	ray_y;
-	float	fraction = PI / 3 / WIDTH;
-	float	start_x = data->game.player.angle - PI / 6;
-	int		i = 0;
+	float	cos_angle;
+	float	sin_angle;
 
+	distance = 0;
+	cos_angle = cos(start_x);
+	sin_angle = sin(start_x);
+	ray_x = x + 2.5;
+	ray_y = y + 2.5;
+	while (!collision(data, ray_x, ray_y))
+	{
+		ray_x += cos_angle * 0.5;
+		ray_y += sin_angle * 0.5;
+		distance += 0.5;
+	}
+	// Apply fisheye correction
+	return (distance * cos(start_x - data->game.player.angle));
+}
+
+void	draw_rays(int x, int y, int color, t_data *data)
+{
+	float	start_x;
+	float	fraction;
+	float	distance;
+	int		wall_height;
+	int		i;
+
+	fraction = PI / 3 / WIDTH;
+	start_x = data->game.player.angle - PI / 6;
+	i = 0;
 	while (i < WIDTH)
 	{
-		cos_angle = cos(start_x);
-		sin_angle = sin(start_x);
-		ray_y = y + 2.5;
-		ray_x = x + 2.5;
-		while (!collision(data, ray_x, ray_y))
-		{
-			my_pixel_put(&data->game.img, ray_x, ray_y, color);
-			ray_x += cos_angle * 0.5;
-			ray_y += sin_angle * 0.5;
-		}
+		distance = get_wall_distance(data, start_x, x, y);
+		wall_height = (BLOCK * HEIGHT) / distance;
+		// Prevent overflow for close walls
+		if (wall_height > HEIGHT)
+			wall_height = HEIGHT;
+		draw_vertical_line(data, i, wall_height, color);
 		start_x += fraction;
 		i++;
 	}
