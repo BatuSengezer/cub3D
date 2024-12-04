@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:47:53 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/03 18:20:34 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/04 14:34:47 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "mlx.h"
 # include "libft.h"
+# include <math.h>
 # include <fcntl.h>
 # include <errno.h>
 
@@ -36,6 +37,8 @@
 
 # define WIDTH 768
 # define HEIGHT 640
+# define BLOCK 64
+# define PI 3.14159265359
 
 # define DEBUG 1
 
@@ -46,6 +49,24 @@
 # define D 100
 # define LEFT 65361
 # define RIGHT 65363
+
+typedef struct s_player
+{
+	float	x;
+	float	y;
+	float	angle;
+
+	float	speed;
+	float	angle_speed;
+
+	int		key_up;
+	int		key_down;
+	int		key_left;
+	int		key_right;
+
+	int		left_rotate;
+	int		right_rotate;
+}	t_player;
 
 typedef struct s_img
 {
@@ -58,9 +79,10 @@ typedef struct s_img
 
 typedef struct s_game
 {
-	void	*mlx;
-	void	*win;
-	t_img	img;
+	void		*mlx;
+	void		*win;
+	t_img		img;
+	t_player	player;
 }	t_game;
 
 typedef struct s_map
@@ -115,13 +137,18 @@ int		find_mapstart(char **arr);
 int		check_map(t_map *map);
 int		is_player(char c);
 void	game(t_data *data);
+void	draw_map(t_data *data);
+void	draw_square(int x, int y, int size, t_game *game);
+void	my_pixel_put(t_img *img, int x, int y, int color);
+void	clear_image(t_img *img);
+int		ft_key_release(int key, t_data *data);
+int		ft_key_press(int key, t_data *data);
+int		esc_hook(t_data *data);
+void	get_player_pos(t_data *data);
+void	move_player(t_player *player);
 
 // DEBUG
 void	print_array(char **arr);
 void	print_colorcode(int *color);
-void	draw_map(t_data *data);
-void	draw_square(int x, int y, int size, t_game *game);
-void	color_screen(t_data *data, int color);
-void	my_pixel_put(t_img *img, int x, int y, int color);
 
 #endif

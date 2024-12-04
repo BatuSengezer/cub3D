@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:44:28 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/03 18:30:11 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/04 13:36:15 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	draw_map(t_data *data)
 		while (map[y][x])
 		{
 			if (map[y][x] == '1')
-				draw_square(x * 64, y * 64, 64, &data->game);
+				draw_square(x * BLOCK, y * BLOCK, BLOCK, &data->game);
 			x++;
 		}
 		y++;
@@ -56,18 +56,4 @@ void	draw_map(t_data *data)
 		data->game.win,
 		data->game.img.img_ptr,
 		0, 0);
-}
-
-void	color_screen(t_data *data, int color)
-{
-	for (int y = 0; y < HEIGHT; ++y)
-	{
-		for (int x = 0; x < WIDTH; ++x)
-		{
-			my_pixel_put(&data->game.img,
-				x,
-				y,
-				color);
-		}
-	}
 }

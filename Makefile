@@ -6,7 +6,7 @@
 #    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 11:18:15 by joschka           #+#    #+#              #
-#    Updated: 2024/12/03 17:48:37 by jbeck            ###   ########.fr        #
+#    Updated: 2024/12/04 14:39:07 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIBMLX	:=	./minilibx-linux
 LIBFT	:=	./libft
 LKLIBFT	:=	-L $(LIBFT) -lft
 LKMLX	:=	-L $(LIBMLX) -lmlx -lX11 -lXext
-LIBS	:=	$(LKMLX) $(LKLIBFT)
+LIBS	:=	$(LKMLX) $(LKLIBFT) -lm
 HEADERS	:=	-I ./include \
 			-I ../include \
 			-I ./minilibx-linux \
@@ -36,6 +36,9 @@ SRCS	:=	./src/main.c \
 			./src/parsing/check_map.c \
 			./src/game/game.c \
 			./src/game/debug.c \
+			./src/game/utils.c \
+			./src/game/player.c \
+			./src/game/key_hooks.c \
 			
 OBJS	:= ${SRCS:.c=.o}
 
