@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:47:53 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/04 16:16:36 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/05 14:01:49 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 # define BLOCK 64
 # define PI 3.14159265359
 
-# define DEBUG 1
+# define DEBUG 0
 
 # define ESC 65307
 # define W 119
@@ -148,6 +148,9 @@ int		esc_hook(t_data *data);
 void	get_player_pos(t_data *data);
 void	move_player(t_player *player, t_data *data);
 int		collision(t_data *data, int x, int y);
+int		get_rgb(int *rgb);
+int		collision(t_data *data, int x, int y);
+void	raycasting(int x, int y, t_data *data);
 
 // DEBUG
 void	print_array(char **arr);

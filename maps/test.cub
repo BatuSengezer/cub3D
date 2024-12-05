@@ -2,7 +2,7 @@
 NO   ./maps/testure.xpm
   SO  ./maps/texture.xpm
 
-F 22,55,66
+F 22,0,0
 WE   ./maps/testure.xpm
 
 
@@ -10,7 +10,7 @@ WE   ./maps/testure.xpm
 
 EA   ./maps/testure.xpm
 NO ./maps/texture.xpm
-C   0,+44,7
+C   22,22,255
 
 111111111111
 100000000001

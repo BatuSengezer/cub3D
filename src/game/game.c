@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 15:40:06 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/04 19:42:59 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/05 14:01:25 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,94 +24,6 @@ void	initialize(t_data *data)
 	get_player_pos(data);
 }
 
-int	collision(t_data *data, int x, int y)
-{
-	int		px;
-	int		py;
-	char	**map;
-
-	map = data->map.map_tab;
-	px = x / BLOCK;
-	py = y / BLOCK;
-	
-
-	if (px < 0 || py < 0 || px >= data->map.width || py >= data->map.height)
-		return (1);
-	
-	if (map[py][px] == '1')
-		return (1);
-	return (0);
-}
-
-static void	draw_vertical_line(t_data *data, int x, int wall_height, int color)
-{
-	int	draw_start;
-	int	draw_end;
-	int	y;
-
-	draw_start = (HEIGHT - wall_height) / 2;
-	draw_end = draw_start + wall_height;
-	// Draw ceiling
-	y = 0;
-	while (y < draw_start)
-		my_pixel_put(&data->game.img, x, y++, color);
-	// Draw wall
-	while (y < draw_end)
-		my_pixel_put(&data->game.img, x, y++, 0xFFFFFF);
-	// Draw floor
-	while (y < HEIGHT)
-		my_pixel_put(&data->game.img, x, y++, 0x666666);
-}
-
-static float	get_wall_distance(t_data *data, float start_x, float x, float y)
-{
-	float	distance;
-	float	ray_x;
-	float	ray_y;
-	float	cos_angle;
-	float	sin_angle;
-
-	distance = 0;
-	cos_angle = cos(start_x);
-	sin_angle = sin(start_x);
-	ray_x = x;
-	ray_y = y;
-	
-	while (distance < (WIDTH + HEIGHT))
-	{
-		if (collision(data, ray_x, ray_y))
-			break;
-		ray_x += cos_angle*0.5;
-		ray_y += sin_angle*0.5;
-		distance += 0.5;
-	}
-	return (distance * cos(start_x - data->game.player.angle));
-}
-
-void	draw_rays(int x, int y, int color, t_data *data)
-{
-	float	start_x;
-	float	fraction;
-	float	distance;
-	int		wall_height;
-	int		i;
-
-	fraction = PI / 3 / WIDTH;
-	start_x = data->game.player.angle - PI / 6;
-	i = 0;
-	while (i < WIDTH)
-	{
-		distance = get_wall_distance(data, start_x, x, y);
-		wall_height = (BLOCK * HEIGHT) / distance;
-		// Prevent overflow for close walls
-		if (wall_height > HEIGHT)
-			wall_height = HEIGHT;
-		draw_vertical_line(data, i, wall_height, color);
-		start_x += fraction;
-		i++;
-	}
-}
-
 int	draw_loop(t_data *data)
 {
 	move_player(&data->game.player, data);
@@ -120,8 +32,8 @@ int	draw_loop(t_data *data)
 	{
 		draw_map(data);
 		draw_square(data->game.player.x, data->game.player.y, 5, &data->game);
-		draw_rays(data->game.player.x, data->game.player.y, 0x00ff, data);
 	}
+	raycasting(data->game.player.x, data->game.player.y, data);
 	mlx_put_image_to_window(data->game.mlx,
 		data->game.win,
 		data->game.img.img_ptr,

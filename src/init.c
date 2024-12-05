@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:56:47 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/04 19:30:27 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/05 13:39:16 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	init_player(t_player *player)
 	player->x = 0;
 	player->y = 0;
 	player->angle = 0;
-	player->speed = 10;
-	player->angle_speed = 0.09;
+	player->speed = 15;
+	player->angle_speed = 0.1;
 	player->key_up = 0;
 	player->key_down = 0;
 	player->key_left = 0;

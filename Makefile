@@ -6,7 +6,7 @@
 #    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 11:18:15 by joschka           #+#    #+#              #
-#    Updated: 2024/12/04 14:39:07 by jbeck            ###   ########.fr        #
+#    Updated: 2024/12/05 14:15:29 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRCS	:=	./src/main.c \
 			./src/game/utils.c \
 			./src/game/player.c \
 			./src/game/key_hooks.c \
-			
+			./src/game/raycasting.c \
+
 OBJS	:= ${SRCS:.c=.o}
 
 all: libmlx libft $(NAME)
