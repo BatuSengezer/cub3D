@@ -36,7 +36,7 @@ void	init_textures(t_textures *textures)
 	textures->tex = malloc(sizeof(t_tex_img *) * 4);
 	if (textures->tex)
 	{
-		while (textures->tex[i])
+		while (i < 4)
 			textures->tex[i++] = NULL;
 	}
 	textures->floor = NULL;

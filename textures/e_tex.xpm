@@ -1,7 +1,7 @@
 /* XPM */
 static char *zzwolf5_xpm[] = {
 /* width height num_colors chars_per_pixel */
-"   480   480      256            2",
+"   64   64      256            2",
 /* colors */
 "`` c #040204",
 "`. c #441a04",

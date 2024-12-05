@@ -73,16 +73,19 @@ static t_ray get_wall_hit(t_data *data, float angle, float x, float y)
         y += step_y;
         ray.distance += 0.1;
     }
+    // Fix fisheye effect
+    ray.distance *= cos(angle - data->game.player.angle);
     
     // Determine wall direction based on hit position
-    if (step_x > 0 && collision(data, x - 0.1, y))
-        ray.direction = 3;  // WE wall
-    else if (step_x < 0 && collision(data, x + 0.1, y))
-        ray.direction = 2;  // EA wall
-    else if (step_y > 0 && collision(data, x, y - 0.1))
-        ray.direction = 1;  // SO wall
+    float dx = x - (int)x;
+    float dy = y - (int)y;
+
+    if (fabs(dx) < 0.01)  // Vertical wall hit
+        ray.direction = (step_x > 0) ? 3 : 2;  // 3=West, 2=East
+    else if (fabs(dy) < 0.01)  // Horizontal wall hit
+        ray.direction = (step_y > 0) ? 1 : 0;  // 1=South, 0=North
     else
-        ray.direction = 0;  // NO wall
+        ray.direction = 0;  // Fallback
         
     // Calculate wall_x (0-1 position on wall)
     if (ray.direction < 2)  // NO or SO
@@ -90,7 +93,7 @@ static t_ray get_wall_hit(t_data *data, float angle, float x, float y)
     else
         ray.wall_x = y - floor(y);
         
-    return ray;
+    return(ray);
 }
 
 static void draw_textured_line(t_data *data, int x, int wall_height, t_ray ray)
