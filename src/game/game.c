@@ -74,15 +74,17 @@ static float	get_wall_distance(t_data *data, float start_x, float x, float y)
 	distance = 0;
 	cos_angle = cos(start_x);
 	sin_angle = sin(start_x);
-	ray_x = x + 2.5;
-	ray_y = y + 2.5;
-	while (!collision(data, ray_x, ray_y))
+	ray_x = x;
+	ray_y = y;
+	
+	while (distance < (WIDTH + HEIGHT))
 	{
-		ray_x += cos_angle * 0.5;
-		ray_y += sin_angle * 0.5;
+		if (collision(data, ray_x, ray_y))
+			break;
+		ray_x += cos_angle*0.5;
+		ray_y += sin_angle*0.5;
 		distance += 0.5;
 	}
-	// Apply fisheye correction
 	return (distance * cos(start_x - data->game.player.angle));
 }
 
@@ -112,7 +114,7 @@ void	draw_rays(int x, int y, int color, t_data *data)
 
 int	draw_loop(t_data *data)
 {
-	move_player(&data->game.player);
+	move_player(&data->game.player, data);
 	clear_image(&data->game.img);
 	if (DEBUG)
 	{

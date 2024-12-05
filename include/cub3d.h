@@ -146,7 +146,8 @@ int		ft_key_release(int key, t_data *data);
 int		ft_key_press(int key, t_data *data);
 int		esc_hook(t_data *data);
 void	get_player_pos(t_data *data);
-void	move_player(t_player *player);
+void	move_player(t_player *player, t_data *data);
+int		collision(t_data *data, int x, int y);
 
 // DEBUG
 void	print_array(char **arr);

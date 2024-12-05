@@ -62,37 +62,50 @@ void	rotate(t_player *player)
 		player->angle = 2 * PI;
 }
 
-void	move(t_player *player)
+void	move(t_player *player, t_data *data)
 {
 	float	cos_angle;
 	float	sin_angle;
+	float	new_x;
+	float	new_y;
 
 	cos_angle = cos(player->angle);
 	sin_angle = sin(player->angle);
+	
+	new_x = player->x;
+	new_y = player->y;
+	
 	if (player->key_up)
 	{
-		player->x += cos_angle * player->speed;
-		player->y += sin_angle * player->speed;
+		new_x += cos_angle * player->speed;
+		new_y += sin_angle * player->speed;
 	}
 	if (player->key_down)
 	{
-		player->x -= cos_angle * player->speed;
-		player->y -= sin_angle * player->speed;
+		new_x -= cos_angle * player->speed;
+		new_y -= sin_angle * player->speed;
 	}
 	if (player->key_left)
 	{
-		player->x += sin_angle * player->speed;
-		player->y -= cos_angle * player->speed;
+		new_x += sin_angle * player->speed;
+		new_y -= cos_angle * player->speed;
 	}
 	if (player->key_right)
 	{
-		player->x -= sin_angle * player->speed;
-		player->y += cos_angle * player->speed;
+		new_x -= sin_angle * player->speed;
+		new_y += cos_angle * player->speed;
+	}
+	
+	// Not checking for collision here caused wall problems
+	if (!collision(data, new_x, new_y))
+	{
+		player->x = new_x;
+		player->y = new_y;
 	}
 }
 
-void	move_player(t_player *player)
+void	move_player(t_player *player, t_data *data)
 {
 	rotate(player);
-	move(player);
+	move(player, data);
 }
