@@ -34,7 +34,7 @@
 # define ERR_MAP "no valid map in .cub file found"
 # define ERR_WALL "map is not surrounded by walls"
 # define ERR_PLAYCOUNT "there has to be exactly one player"
-
+# define ERR_TEXTURE "loading textures failed"
 # define WIDTH 768
 # define HEIGHT 640
 # define BLOCK 64
@@ -82,7 +82,7 @@ typedef struct s_game
 	void		*mlx;
 	void		*win;
 	t_img		img;
-	t_player	player;
+	t_player	player;	
 	int			wall_collision;
 }	t_game;
 
@@ -95,15 +95,35 @@ typedef struct s_map
 	int		player_count;
 }	t_map;
 
+typedef struct s_tex_img {
+    void    *img;
+    char    *addr;
+    int     bits_per_pixel;
+    int     line_length;
+    int     endian;
+    int     width;
+    int     height;
+} t_tex_img;
 typedef struct s_textures
 {
-	char	**north;
-	char	**south;
-	char	**west;
-	char	**east;
-	int		*floor;
-	int		*ceiling;
-}	t_textures;
+	char        **path_n;     // Path to texture
+	char        **path_s;     // Path to texture
+	char        **path_w;      // Path to texture
+	char        **path_e;      // Path to texture
+	t_tex_img   *tex_n;     // Loaded texture
+	t_tex_img   *tex_s;     // Loaded texture
+	t_tex_img   *tex_w;     // Loaded texture
+	t_tex_img   *tex_e;     // Loaded texture
+	t_tex_img   **tex;     // Changed to pointer to array
+	int         *floor;
+	int         *ceiling;
+}   t_textures;
+
+typedef struct s_ray {
+    float   distance;   // Distance to the wall
+    int     direction;  // 0=NO, 1=SO, 2=EA, 3=WE
+    float   wall_x;     // Exact hit position (0-1)
+} t_ray;
 
 typedef struct s_scenery
 {
@@ -123,6 +143,8 @@ typedef struct s_data
 
 void	init(t_data *data);
 void	squeaky_clean(t_data *data);
+void	clean_exit(t_data *data, int code);
+void    cleanup_textures(t_data *data);
 int		parsing(char *path, t_data *data);
 int		print_error(char *src, char *str, int errcode);
 int		skip_space(char *str);
@@ -132,6 +154,7 @@ void	cut_newline(char **arr);
 int		check_elements(char **scene);
 int		map_last(char **scene);
 int		get_textures(t_data *data);
+int		load_all_textures(t_data *data);
 int		get_colors(t_data *data);
 int		get_map(t_data *data);
 int		find_mapstart(char **arr);
@@ -151,9 +174,12 @@ int		collision(t_data *data, int x, int y);
 int		get_rgb(int *rgb);
 int		collision(t_data *data, int x, int y);
 void	raycasting(int x, int y, t_data *data);
+t_tex_img    *load_texture(void *mlx, char *path);
 
 // DEBUG
 void	print_array(char **arr);
 void	print_colorcode(int *color);
+
+
 
 #endif

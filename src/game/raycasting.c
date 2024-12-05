@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 # include "cub3d.h"
-
+/* 
 static void	draw_vertical_line(t_data *data, int x, int wall_height)
 {
 	int	draw_start;
@@ -59,12 +59,66 @@ static float	get_wall_distance(t_data *data, float start_x, float x, float y)
 	}
 	return (distance * cos(start_x - data->game.player.angle));
 }
+ */
+static t_ray get_wall_hit(t_data *data, float angle, float x, float y)
+{
+    t_ray ray;
+    float step_x = cos(angle) * 0.1;
+    float step_y = sin(angle) * 0.1;
+    
+    ray.distance = 0;
+    while (!collision(data, x, y))
+    {
+        x += step_x;
+        y += step_y;
+        ray.distance += 0.1;
+    }
+    
+    // Determine wall direction based on hit position
+    if (step_x > 0 && collision(data, x - 0.1, y))
+        ray.direction = 3;  // WE wall
+    else if (step_x < 0 && collision(data, x + 0.1, y))
+        ray.direction = 2;  // EA wall
+    else if (step_y > 0 && collision(data, x, y - 0.1))
+        ray.direction = 1;  // SO wall
+    else
+        ray.direction = 0;  // NO wall
+        
+    // Calculate wall_x (0-1 position on wall)
+    if (ray.direction < 2)  // NO or SO
+        ray.wall_x = x - floor(x);
+    else
+        ray.wall_x = y - floor(y);
+        
+    return ray;
+}
+
+static void draw_textured_line(t_data *data, int x, int wall_height, t_ray ray)
+{
+    int draw_start = (HEIGHT - wall_height) / 2;
+    int draw_end = draw_start + wall_height;
+    t_tex_img *tex = data->textures.tex[ray.direction];
+    int tex_x = ray.wall_x * tex->width;
+    
+    for (int y = draw_start; y < draw_end; y++)
+    {
+        float tex_pos = (y - draw_start) / (float)wall_height;
+        int tex_y = tex_pos * tex->height;
+        char *pixel = tex->addr + (tex_y * tex->line_length + 
+                                 tex_x * (tex->bits_per_pixel / 8));
+        int color = *(unsigned int*)pixel;
+        my_pixel_put(&data->game.img, x, y, color);
+    }
+}
 
 void	raycasting(int x, int y, t_data *data)
 {
+	(void)x;  // Suppress unused parameter warning
+	(void)y;  // Suppress unused parameter warning
+
 	float	start_x;
 	float	fraction;
-	float	distance;
+	t_ray	ray;
 	int		wall_height;
 	int		i;
 
@@ -73,12 +127,11 @@ void	raycasting(int x, int y, t_data *data)
 	i = 0;
 	while (i < WIDTH)
 	{
-		distance = get_wall_distance(data, start_x, x, y);
-		wall_height = (BLOCK * HEIGHT) / distance;
-		// Prevent overflow for close walls
+		ray = get_wall_hit(data, start_x, data->game.player.x, data->game.player.y);
+		wall_height = (BLOCK * HEIGHT) / ray.distance;
 		if (wall_height > HEIGHT)
 			wall_height = HEIGHT;
-		draw_vertical_line(data, i, wall_height);
+		draw_textured_line(data, i, wall_height, ray);
 		start_x += fraction;
 		i++;
 	}

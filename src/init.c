@@ -22,10 +22,23 @@ void	init_scenery(t_scenery *scenery)
 
 void	init_textures(t_textures *textures)
 {
-	textures->north = NULL;
-	textures->south = NULL;
-	textures->west = NULL;
-	textures->east = NULL;
+	int	i;
+
+	i = 0;
+	textures->path_n = NULL;
+	textures->path_s = NULL;
+	textures->path_w = NULL;
+	textures->path_e = NULL;
+	textures->tex_n = NULL;
+	textures->tex_s = NULL;
+	textures->tex_w = NULL;
+	textures->tex_e = NULL;
+	textures->tex = malloc(sizeof(t_tex_img *) * 4);
+	if (textures->tex)
+	{
+		while (textures->tex[i])
+			textures->tex[i++] = NULL;
+	}
 	textures->floor = NULL;
 	textures->ceiling = NULL;
 }

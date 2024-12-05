@@ -36,14 +36,16 @@ void	squeaky_clean(t_data *data)
 {
 	if (data->scenery.scene)
 		free_array(data->scenery.scene);
-	if (data->textures.north)
-		free_array(data->textures.north);
-	if (data->textures.south)
-		free_array(data->textures.south);
-	if (data->textures.west)
-		free_array(data->textures.west);
-	if (data->textures.east)
-		free_array(data->textures.east);
+	/*
+	if (data->textures.path_n)
+		free_array(data->textures.path_n);
+	if (data->textures.path_s)
+		free_array(data->textures.path_s);
+	if (data->textures.path_w)
+		free_array(data->textures.path_w);
+	if (data->textures.path_e)
+		free_array(data->textures.path_e);
+	*/
 	if (data->textures.floor)
 		free(data->textures.floor);
 	if (data->textures.ceiling)
@@ -52,11 +54,49 @@ void	squeaky_clean(t_data *data)
 		free_array(data->map.map_tab);
 	if (data->game.mlx)
 		free(data->game.mlx);
+	cleanup_textures(data);
+}
+
+void    cleanup_textures(t_data *data)
+{
+    // Free texture paths
+    if (data->textures.path_n)
+        free_array(data->textures.path_n);
+    if (data->textures.path_s)
+        free_array(data->textures.path_s);
+    if (data->textures.path_w)
+        free_array(data->textures.path_w);
+    if (data->textures.path_e)
+        free_array(data->textures.path_e);
+
+    // Free texture images
+    if (data->textures.tex_n)
+    {
+        mlx_destroy_image(data->game.mlx, data->textures.tex_n->img);
+        free(data->textures.tex_n);
+    }
+    if (data->textures.tex_s)
+    {
+        mlx_destroy_image(data->game.mlx, data->textures.tex_s->img);
+        free(data->textures.tex_s);
+    }
+    if (data->textures.tex_e)
+    {
+        mlx_destroy_image(data->game.mlx, data->textures.tex_e->img);
+        free(data->textures.tex_e);
+    }
+    if (data->textures.tex_w)
+    {
+        mlx_destroy_image(data->game.mlx, data->textures.tex_w->img);
+        free(data->textures.tex_w);
+    }
+	if (data->textures.tex)
+		free(data->textures.tex);	
 }
 
 int	print_error(char *src, char *str, int errcode)
 {
-	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd("Error: ", 2);
 	if (src)
 	{
 		ft_putstr_fd(src, 2);

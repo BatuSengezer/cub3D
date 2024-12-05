@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 
+
 void	initialize(t_data *data)
 {
 	data->game.mlx = mlx_init();
@@ -21,6 +22,11 @@ void	initialize(t_data *data)
 			&data->game.img.bits_per_pixel,
 			&data->game.img.line_len,
 			&data->game.img.endian);
+	if (load_all_textures(data))
+	{
+		print_error(NULL, ERR_TEXTURE, 1);
+		clean_exit(data, 1);
+	}
 	get_player_pos(data);
 }
 
