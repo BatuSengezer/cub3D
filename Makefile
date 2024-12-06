@@ -3,24 +3,36 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
+#    By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 11:18:15 by joschka           #+#    #+#              #
-#    Updated: 2024/12/05 14:15:29 by jbeck            ###   ########.fr        #
+#    Updated: 2024/12/06 03:59:47 by bsengeze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:=	cub3d
 CC		:=	cc
 CFLAGS	:=	-Wextra -Wall -Werror
-LIBMLX	:=	./minilibx-linux
 LIBFT	:=	./libft
+
+# Detect operating system
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Darwin)
+    # macOS configuration
+    LIBMLX	:= ./minilibx-macos
+    LKMLX	:= -L $(LIBMLX) -lmlx -framework OpenGL -framework AppKit
+else
+    # Linux configuration
+    LIBMLX	:= ./minilibx-linux
+    LKMLX	:= -L $(LIBMLX) -lmlx -lX11 -lXext
+endif
+
 LKLIBFT	:=	-L $(LIBFT) -lft
-LKMLX	:=	-L $(LIBMLX) -lmlx -lX11 -lXext
 LIBS	:=	$(LKMLX) $(LKLIBFT) -lm
 HEADERS	:=	-I ./include \
 			-I ../include \
-			-I ./minilibx-linux \
+			-I $(LIBMLX) \
 			-I ./libft \
 
 SRCS	:=	./src/main.c \
