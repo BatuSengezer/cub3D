@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:47:53 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/06 04:11:14 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/06 04:42:27 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <math.h>
-
+#include <stdio.h>
 // macos
 #ifndef O_DIRECTORY
 #define O_DIRECTORY 0200000

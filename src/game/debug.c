@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 17:44:28 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/04 13:36:15 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/06 23:18:55 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ void	draw_map(t_data *data)
 		}
 		y++;
 	}
-	mlx_put_image_to_window(data->game.mlx,
-		data->game.win,
-		data->game.img.img_ptr,
-		0, 0);
+	mlx_put_image_to_window(data->game.mlx, data->game.win,
+		data->game.img.img_ptr, 0, 0);
 }
