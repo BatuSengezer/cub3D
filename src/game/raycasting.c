@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:53:31 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/07 21:40:49 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/07 22:28:38 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,4 +197,5 @@ void	raycasting(int x, int y, t_data *data)
 		start_x += fraction;
 		i++;
 	}
+	draw_minimap(data);
 }

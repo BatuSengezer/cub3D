@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:47:53 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/07 01:50:48 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/07 22:29:45 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int				get_rgb(int *rgb);
 int				collision(t_data *data, int x, int y);
 void			raycasting(int x, int y, t_data *data);
 t_tex_img		*load_texture(void *mlx, char *path);
-
+void			draw_minimap(t_data *data);
 // DEBUG
 void			print_array(char **arr);
 void			print_colorcode(int *color);

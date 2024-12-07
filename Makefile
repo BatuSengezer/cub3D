@@ -6,7 +6,7 @@
 #    By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 11:18:15 by joschka           #+#    #+#              #
-#    Updated: 2024/12/06 03:59:47 by bsengeze         ###   ########.fr        #
+#    Updated: 2024/12/07 22:30:18 by bsengeze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRCS	:=	./src/main.c \
 			./src/game/player.c \
 			./src/game/key_hooks.c \
 			./src/game/raycasting.c \
+			./src/game/minimap.c \
 
 OBJS	:= ${SRCS:.c=.o}
 
