@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:53:31 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/07 02:39:22 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/07 21:40:49 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,58 +66,58 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 	t_ray	ray;
 	float	step_x;
 	float	step_y;
-	float	dx;
-	float	dy;
-	float	start_x;
-	float	start_y;
 	float	delta_x;
 	float	delta_y;
+	float	side_dist_x;
+	float	side_dist_y;
+	int		map_x;
+	int		map_y;
 
-	start_x = x;
-	start_y = y;
-	step_x = cos(angle) * 0.05;
-	step_y = sin(angle) * 0.05;
-	ray.distance = 0;
+	step_x = cos(angle);
+	step_y = sin(angle);
+	delta_x = (step_x == 0) ? 1e30 : fabs(1.0 / step_x);
+	delta_y = (step_y == 0) ? 1e30 : fabs(1.0 / step_y);
+	// Calculate initial side distances
+	side_dist_x = (step_x < 0) ? (x - floor(x)) * delta_x : (ceil(x) - x)
+		* delta_x;
+	side_dist_y = (step_y < 0) ? (y - floor(y)) * delta_y : (ceil(y) - y)
+		* delta_y;
+	map_x = (int)x;
+	map_y = (int)y;
+	int side; // 0 for x-side, 1 for y-side
+	// Perform DDA
 	while (!collision(data, x, y))
 	{
-		x += step_x;
-		y += step_y;
-		ray.distance += 0.05;
-	}
-	// Fix fisheye effect
-	ray.distance *= cos(angle - data->game.player.angle);
-	// Calculate exact hit position
-	dx = x - floor(x);
-	dy = y - floor(y);
-	// Determine wall direction based on movement and hit position
-	if (dx < 0.02 || dx > 0.98)
-	{                                         // Vertical wall (East/West)
-		ray.direction = (step_x > 0) ? 3 : 2; // 3=West, 2=East
-		ray.wall_x = y - floor(y);
-		// Use y coordinate for vertical walls
-	}
-	else if (dy < 0.02 || dy > 0.98)
-	{                                         // Horizontal wall (North/South)
-		ray.direction = (step_y > 0) ? 1 : 0; // 1=South, 0=North
-		ray.wall_x = x - floor(x);
-		// Use x coordinate for horizontal walls
-	}
-	else
-	{
-		// Determine based on which side was hit first
-		delta_x = fabs(x - start_x);
-		delta_y = fabs(y - start_y);
-		if (delta_x > delta_y)
+		// Jump to next square
+		if (side_dist_x < side_dist_y)
 		{
-			ray.direction = (step_x > 0) ? 3 : 2;
-			ray.wall_x = y - floor(y);
+			side_dist_x += delta_x;
+			map_x += (step_x > 0) ? 1 : -1;
+			side = 0;
 		}
 		else
 		{
-			ray.direction = (step_y > 0) ? 1 : 0;
-			ray.wall_x = x - floor(x);
+			side_dist_y += delta_y;
+			map_y += (step_y > 0) ? 1 : -1;
+			side = 1;
 		}
+		x = map_x;
+		y = map_y;
 	}
+	// Calculate exact hit position and direction
+	if (side == 0)
+	{                                         // Vertical wall (East/West)
+		ray.direction = (step_x > 0) ? 3 : 2; // 3=West, 2=East
+		ray.wall_x = y - floor(y);
+	}
+	else
+	{                                         // Horizontal wall (North/South)
+		ray.direction = (step_y > 0) ? 1 : 0; // 1=South, 0=North
+		ray.wall_x = x - floor(x);
+	}
+	ray.distance = sqrt(pow(x - data->game.player.x, 2) + pow(y
+				- data->game.player.y, 2));
+	ray.distance *= cos(angle - data->game.player.angle); // Fix fisheye
 	return (ray);
 }
 
