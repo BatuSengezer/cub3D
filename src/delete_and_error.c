@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:25:32 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/07 01:49:49 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/07 03:03:26 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,9 @@ void	clean_exit(t_data *data, int code)
 
 void	squeaky_clean(t_data *data)
 {
+	cleanup_textures(data);
 	if (data->scenery.scene)
 		free_array(data->scenery.scene);
-	/*
-	if (data->textures.path_n)
-			free_array(data->textures.path_n);
-	if (data->textures.path_s)
-			free_array(data->textures.path_s);
-	if (data->textures.path_w)
-			free_array(data->textures.path_w);
-	if (data->textures.path_e)
-			free_array(data->textures.path_e);
-	*/
 	if (data->textures.floor)
 		free(data->textures.floor);
 	if (data->textures.ceiling)
@@ -54,50 +45,60 @@ void	squeaky_clean(t_data *data)
 		free_array(data->map.map_tab);
 	if (data->game.mlx)
 		free(data->game.mlx);
-	cleanup_textures(data);
 }
 
 void	cleanup_textures(t_data *data)
 {
-	if (!data->game.mlx)
+	if (!data || !data->game.mlx)
 		return ;
+	// Destroy images first
+	if (data->textures.tex_n && data->textures.tex_n->img)
+	{
+		mlx_destroy_image(data->game.mlx, data->textures.tex_n->img);
+		data->textures.tex_n->img = NULL;
+	}
+	if (data->textures.tex_s && data->textures.tex_s->img)
+	{
+		mlx_destroy_image(data->game.mlx, data->textures.tex_s->img);
+		data->textures.tex_s->img = NULL;
+	}
+	if (data->textures.tex_e && data->textures.tex_e->img)
+	{
+		mlx_destroy_image(data->game.mlx, data->textures.tex_e->img);
+		data->textures.tex_e->img = NULL;
+	}
+	if (data->textures.tex_w && data->textures.tex_w->img)
+	{
+		mlx_destroy_image(data->game.mlx, data->textures.tex_w->img);
+		data->textures.tex_w->img = NULL;
+	}
+	// Free texture structs after destroying images
+	if (data->textures.tex_n)
+	{
+		free(data->textures.tex_n);
+		data->textures.tex_n = NULL;
+	}
+	if (data->textures.tex_s)
+	{
+		free(data->textures.tex_s);
+		data->textures.tex_s = NULL;
+	}
+	if (data->textures.tex_e)
+	{
+		free(data->textures.tex_e);
+		data->textures.tex_e = NULL;
+	}
+	if (data->textures.tex_w)
+	{
+		free(data->textures.tex_w);
+		data->textures.tex_w = NULL;
+	}
+	// Free texture array last
 	if (data->textures.tex)
 	{
 		free(data->textures.tex);
 		data->textures.tex = NULL;
 	}
-	// Free texture paths
-	if (data->textures.path_n)
-		free_array(data->textures.path_n);
-	if (data->textures.path_s)
-		free_array(data->textures.path_s);
-	if (data->textures.path_w)
-		free_array(data->textures.path_w);
-	if (data->textures.path_e)
-		free_array(data->textures.path_e);
-	// Free texture images
-	if (data->textures.tex_n)
-	{
-		mlx_destroy_image(data->game.mlx, data->textures.tex_n->img);
-		free(data->textures.tex_n);
-	}
-	if (data->textures.tex_s)
-	{
-		mlx_destroy_image(data->game.mlx, data->textures.tex_s->img);
-		free(data->textures.tex_s);
-	}
-	if (data->textures.tex_e)
-	{
-		mlx_destroy_image(data->game.mlx, data->textures.tex_e->img);
-		free(data->textures.tex_e);
-	}
-	if (data->textures.tex_w)
-	{
-		mlx_destroy_image(data->game.mlx, data->textures.tex_w->img);
-		free(data->textures.tex_w);
-	}
-	if (data->textures.tex)
-		free(data->textures.tex);
 }
 
 int	print_error(char *src, char *str, int errcode)

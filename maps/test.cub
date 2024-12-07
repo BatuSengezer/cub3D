@@ -2,11 +2,11 @@
 NO   ./textures/n_tex.xpm
 SO  ./textures/s_tex.xpm
 
-F 22,0,0
+F 34,139,34
 WE   ./textures/w_tex.xpm
 EA   ./textures/e_tex.xpm
 
-C   22,22,255
+C   20,20,235
 
 111111111111
 100000000001

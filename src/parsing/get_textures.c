@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 14:43:40 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/07 01:51:19 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/07 02:31:18 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,15 +149,5 @@ int	load_all_textures(t_data *data)
 	data->textures.tex[1] = data->textures.tex_s; // South
 	data->textures.tex[2] = data->textures.tex_e; // East
 	data->textures.tex[3] = data->textures.tex_w; // West
-	// Debug print
-	printf("Texture dimensions:\n");
-	printf("North: %dx%d\n", data->textures.tex_n->width,
-		data->textures.tex_n->height);
-	printf("South: %dx%d\n", data->textures.tex_s->width,
-		data->textures.tex_s->height);
-	printf("West: %dx%d\n", data->textures.tex_w->width,
-		data->textures.tex_w->height);
-	printf("East: %dx%d\n", data->textures.tex_e->width,
-		data->textures.tex_e->height);
 	return (0);
 }

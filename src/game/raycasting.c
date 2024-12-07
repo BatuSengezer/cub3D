@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:53:31 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/07 01:51:01 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/07 02:39:22 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,32 +68,56 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 	float	step_y;
 	float	dx;
 	float	dy;
+	float	start_x;
+	float	start_y;
+	float	delta_x;
+	float	delta_y;
 
-	step_x = cos(angle) * 0.1;
-	step_y = sin(angle) * 0.1;
+	start_x = x;
+	start_y = y;
+	step_x = cos(angle) * 0.05;
+	step_y = sin(angle) * 0.05;
 	ray.distance = 0;
 	while (!collision(data, x, y))
 	{
 		x += step_x;
 		y += step_y;
-		ray.distance += 0.1;
+		ray.distance += 0.05;
 	}
 	// Fix fisheye effect
 	ray.distance *= cos(angle - data->game.player.angle);
-	// Determine wall direction based on hit position
-	dx = x - (int)x;
-	dy = y - (int)y;
-	if (fabs(dx) < 0.01)                      // Vertical wall hit
+	// Calculate exact hit position
+	dx = x - floor(x);
+	dy = y - floor(y);
+	// Determine wall direction based on movement and hit position
+	if (dx < 0.02 || dx > 0.98)
+	{                                         // Vertical wall (East/West)
 		ray.direction = (step_x > 0) ? 3 : 2; // 3=West, 2=East
-	else if (fabs(dy) < 0.01)                 // Horizontal wall hit
-		ray.direction = (step_y > 0) ? 1 : 0; // 1=South, 0=North
-	else
-		ray.direction = 0; // Fallback
-	// Calculate wall_x (0-1 position on wall)
-	if (ray.direction < 2) // NO or SO
-		ray.wall_x = x - floor(x);
-	else
 		ray.wall_x = y - floor(y);
+		// Use y coordinate for vertical walls
+	}
+	else if (dy < 0.02 || dy > 0.98)
+	{                                         // Horizontal wall (North/South)
+		ray.direction = (step_y > 0) ? 1 : 0; // 1=South, 0=North
+		ray.wall_x = x - floor(x);
+		// Use x coordinate for horizontal walls
+	}
+	else
+	{
+		// Determine based on which side was hit first
+		delta_x = fabs(x - start_x);
+		delta_y = fabs(y - start_y);
+		if (delta_x > delta_y)
+		{
+			ray.direction = (step_x > 0) ? 3 : 2;
+			ray.wall_x = y - floor(y);
+		}
+		else
+		{
+			ray.direction = (step_y > 0) ? 1 : 0;
+			ray.wall_x = x - floor(x);
+		}
+	}
 	return (ray);
 }
 
@@ -107,19 +131,45 @@ static void	draw_textured_line(t_data *data, int x, int wall_height, t_ray ray)
 	int			tex_y;
 	char		*pixel;
 	int			color;
+	int			y;
 
 	draw_start = (HEIGHT - wall_height) / 2;
+	if (draw_start < 0)
+		draw_start = 0;
 	draw_end = draw_start + wall_height;
+	if (draw_end >= HEIGHT)
+		draw_end = HEIGHT - 1;
 	tex = data->textures.tex[ray.direction];
-	tex_x = ray.wall_x * tex->width;
-	for (int y = draw_start; y < draw_end; y++)
+	tex_x = (int)(ray.wall_x * tex->width);
+	if (tex_x >= tex->width)
+		tex_x = tex->width - 1;
+	// Draw ceiling
+	y = 0;
+	while (y < draw_start)
 	{
-		tex_pos = (y - draw_start) / (float)wall_height;
-		tex_y = tex_pos * tex->height;
+		my_pixel_put(&data->game.img, x, y, get_rgb(data->textures.ceiling));
+		y++;
+	}
+	// Draw wall
+	y = draw_start;
+	while (y < draw_end)
+	{
+		tex_pos = (float)(y - draw_start) / wall_height;
+		tex_y = (int)(tex_pos * tex->height);
+		if (tex_y >= tex->height)
+			tex_y = tex->height - 1;
 		pixel = tex->addr + (tex_y * tex->line_length + tex_x
 				* (tex->bits_per_pixel / 8));
 		color = *(unsigned int *)pixel;
 		my_pixel_put(&data->game.img, x, y, color);
+		y++;
+	}
+	// Draw floor
+	y = draw_end;
+	while (y < HEIGHT)
+	{
+		my_pixel_put(&data->game.img, x, y, get_rgb(data->textures.floor));
+		y++;
 	}
 }
 
