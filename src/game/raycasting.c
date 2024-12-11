@@ -72,6 +72,9 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 	float	side_dist_y;
 	int		map_x;
 	int		map_y;
+	float	exact_x;
+	float	exact_y;
+	int		side;
 
 	step_x = cos(angle);
 	step_y = sin(angle);
@@ -84,22 +87,24 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 		* delta_y;
 	map_x = (int)x;
 	map_y = (int)y;
-	int side; // 0 for x-side, 1 for y-side
 	// Perform DDA
 	while (!collision(data, x, y))
 	{
-		// Jump to next square
 		if (side_dist_x < side_dist_y)
 		{
 			side_dist_x += delta_x;
 			map_x += (step_x > 0) ? 1 : -1;
 			side = 0;
+			exact_x = map_x;
+			exact_y = y + (map_x - x) * step_y / step_x;
 		}
 		else
 		{
 			side_dist_y += delta_y;
 			map_y += (step_y > 0) ? 1 : -1;
 			side = 1;
+			exact_y = map_y;
+			exact_x = x + (map_y - y) * step_x / step_y;
 		}
 		x = map_x;
 		y = map_y;
@@ -108,12 +113,12 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 	if (side == 0)
 	{                                         // Vertical wall (East/West)
 		ray.direction = (step_x > 0) ? 3 : 2; // 3=West, 2=East
-		ray.wall_x = y - floor(y);
+		ray.wall_x = exact_y - floor(exact_y);
 	}
 	else
 	{                                         // Horizontal wall (North/South)
 		ray.direction = (step_y > 0) ? 1 : 0; // 1=South, 0=North
-		ray.wall_x = x - floor(x);
+		ray.wall_x = exact_x - floor(exact_x);
 	}
 	ray.distance = sqrt(pow(x - data->game.player.x, 2) + pow(y
 				- data->game.player.y, 2));
