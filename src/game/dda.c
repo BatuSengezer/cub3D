@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 17:14:51 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/13 17:30:45 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/13 17:52:27 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	perform_dda(t_data *data, t_ray *ray, float x, float y)
 {
 	int	map_x;
 	int	map_y;
-	
+
 	map_x = (int)x;
 	map_y = (int)y;
 	while (!collision(data, x, y))
