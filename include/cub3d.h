@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:47:53 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/13 07:18:38 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:19:18 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_angle
 	float		cos;
 	float		sin;
 }				t_angle;
+
 typedef struct s_img
 {
 	void		*img_ptr;
@@ -126,6 +127,7 @@ typedef struct s_tex_img
 	int			width;
 	int			height;
 }				t_tex_img;
+
 typedef struct s_textures
 {
 	char		**path_n;
@@ -148,8 +150,24 @@ typedef struct s_ray
 	float		wall_x;
 	float		step_x;
 	float		step_y;
+	float		delta_x;
+	float		delta_y;
+	float		side_dist_x;
+	float		side_dist_y;
+	float		hit_x;
+	float		hit_y;
 	int			side;
 }				t_ray;
+
+typedef struct s_line
+{
+	int			draw_start;
+	int			draw_end;
+	int			y_start;
+	int			y_end;
+	t_tex_img	*tex;
+	int			tex_x;
+}				t_line;
 
 typedef struct s_scenery
 {
@@ -211,6 +229,9 @@ void			draw_player_dot(t_data *data, float px, float py);
 void			draw_direction_line(t_data *data, float px, float py);
 void			init_textures(t_textures *textures);
 void			init_map(t_map *map);
+void			perform_dda(t_data *data, t_ray *ray, float x, float y);
+void			prepare_dda(t_ray *ray, float x, float y);
+int				get_direction(float step, int side);
 
 void			print_array(char **arr);
 void			print_colorcode(int *color);

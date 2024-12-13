@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 11:18:15 by joschka           #+#    #+#              #
-#    Updated: 2024/12/13 07:13:59 by bsengeze         ###   ########.fr        #
+#    Updated: 2024/12/13 17:19:40 by jbeck            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRCS	:=	./src/main.c \
 			./src/game/get_player.c \
 			./src/init_2.c \
 			./src/cleanup.c \
+			./src/game/dda.c \
 
 OBJS	:= ${SRCS:.c=.o}
 

@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:34:44 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/07 01:51:03 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:18:06 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	get_direction(float step, int side)
+{
+	int	direction;
+
+	if (side == 0)
+	{
+		if (step > 0)
+			direction = 3;
+		else
+			direction = 2;
+	}
+	else
+	{
+		if (step > 0)
+			direction = 1;
+		else
+			direction = 0;
+	}
+	return (direction);
+}
 
 int	collision(t_data *data, int x, int y)
 {

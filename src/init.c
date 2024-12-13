@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:56:47 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/13 07:10:14 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:34:22 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	init_player(t_player *player)
 	player->x = 0;
 	player->y = 0;
 	player->angle = 0;
-	player->speed = 5;
-	player->angle_speed = 0.05;
+	player->speed = 3;
+	player->angle_speed = 0.03;
 	player->key_up = 0;
 	player->key_down = 0;
 	player->key_left = 0;
