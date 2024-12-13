@@ -6,7 +6,7 @@ F 34,139,34
 WE   ./textures/w_tex.xpm
 EA   ./textures/e_tex.xpm
 
-C   20,20,235
+C   20,+20,235
 
 11111
 10001

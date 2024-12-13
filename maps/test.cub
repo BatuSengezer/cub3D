@@ -4,7 +4,7 @@ SO  ./textures/s_tex.xpm
 
 F 34,139,34
 WE   ./textures/w_tex.xpm
-EA   ./textures/e_tex.xpm
+EA   ./textures/w_tex.xpm
 
 C   20,20,235
 

@@ -6,35 +6,11 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:05:26 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/13 13:58:34 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/13 18:01:34 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	print_array(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		ft_printf("%s\n", arr[i]);
-		i++;
-	}
-}
-
-void	print_colorcode(int *color)
-{
-	int	i;
-
-	i = 0;
-	while (i < 3)
-	{
-		ft_printf("%d, ", color[i]);
-		i++;
-	}
-}
 
 int	main(int argc, char **argv)
 {

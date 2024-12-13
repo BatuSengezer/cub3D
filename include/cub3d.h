@@ -6,7 +6,7 @@
 /*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:47:53 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/13 17:19:18 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/13 18:05:08 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
-
-// macos
-# ifndef O_DIRECTORY
-#  define O_DIRECTORY 0200000
-# endif
 
 # define ERR_USAGE "usage: ./cub3d <path/to/map.cub>"
 # define ERR_DIR "is a directory"
@@ -41,30 +36,19 @@
 # define ERR_WALL "map is not surrounded by walls"
 # define ERR_PLAYCOUNT "there has to be exactly one player"
 # define ERR_TEXTURE "loading textures failed"
+
 # define WIDTH 768
 # define HEIGHT 640
 # define BLOCK 64
 # define PI 3.14159265359
 
-# define DEBUG 0
-
-# ifdef __linux__
-#  define ESC 65307
-#  define W 119
-#  define A 97
-#  define S 115
-#  define D 100
-#  define LEFT 65361
-#  define RIGHT 65363
-# elif __APPLE__
-#  define ESC 53
-#  define W 13
-#  define A 0
-#  define S 1
-#  define D 2
-#  define LEFT 123
-#  define RIGHT 124
-# endif
+# define ESC 65307
+# define W 119
+# define A 97
+# define S 115
+# define D 100
+# define LEFT 65361
+# define RIGHT 65363
 
 typedef struct s_player
 {
@@ -232,8 +216,5 @@ void			init_map(t_map *map);
 void			perform_dda(t_data *data, t_ray *ray, float x, float y);
 void			prepare_dda(t_ray *ray, float x, float y);
 int				get_direction(float step, int side);
-
-void			print_array(char **arr);
-void			print_colorcode(int *color);
 
 #endif
