@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:44:23 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/04 16:20:39 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/07 01:50:57 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,8 @@ void	move(t_player *player, t_data *data)
 
 	cos_angle = cos(player->angle);
 	sin_angle = sin(player->angle);
-	
 	new_x = player->x;
 	new_y = player->y;
-	
 	if (player->key_up)
 	{
 		new_x += cos_angle * player->speed;
@@ -95,7 +93,6 @@ void	move(t_player *player, t_data *data)
 		new_x -= sin_angle * player->speed;
 		new_y += cos_angle * player->speed;
 	}
-	
 	// Not checking for collision here caused wall problems
 	if (!collision(data, new_x, new_y))
 	{

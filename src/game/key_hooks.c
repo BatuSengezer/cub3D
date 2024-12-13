@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:42:01 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/04 13:42:44 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/07 02:53:48 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ int	esc_hook(t_data *data)
 {
 	write(1, "game over!!!\n", 13);
 	mlx_destroy_image(data->game.mlx, data->game.img.img_ptr);
+	cleanup_textures(data);
 	mlx_destroy_window(data->game.mlx, data->game.win);
+#ifdef __linux__
 	mlx_destroy_display(data->game.mlx);
+#endif
 	squeaky_clean(data);
 	exit(0);
 }

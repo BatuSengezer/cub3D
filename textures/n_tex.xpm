@@ -1,0 +1,25 @@
+/* XPM */
+static char *s_tex[] = {
+"16 16 3 1",
+/* colors */
+"R c #FF0000",
+". c #FFFFFF",
+"x c #880000",
+/* pixels */
+"RRRR....RRRR....",
+"RRRR....RRRR....",
+"RRRR....RRRR....",
+"RRRR....RRRR....",
+"....RRRR....RRRR",
+"....RRRR....RRRR",
+"....RRRR....RRRR",
+"....RRRR....RRRR",
+"RRRR....RRRR....",
+"RRRR....RRRR....",
+"RRRR....RRRR....",
+"RRRR....RRRR....",
+"....RRRR....RRRR",
+"....RRRR....RRRR",
+"....RRRR....RRRR",
+"....RRRR....RRRR"
+};

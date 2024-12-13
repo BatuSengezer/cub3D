@@ -1,0 +1,25 @@
+/* XPM */
+static char *w_tex[] = {
+"16 16 3 1",
+/* colors */
+"B c #0000FF",
+". c #FFFFFF",
+"x c #000088",
+/* pixels */
+"BBBB....BBBB....",
+"BBBB....BBBB....",
+"BBBB....BBBB....",
+"BBBB....BBBB....",
+"....BBBB....BBBB",
+"....BBBB....BBBB",
+"....BBBB....BBBB",
+"....BBBB....BBBB",
+"BBBB....BBBB....",
+"BBBB....BBBB....",
+"BBBB....BBBB....",
+"BBBB....BBBB....",
+"....BBBB....BBBB",
+"....BBBB....BBBB",
+"....BBBB....BBBB",
+"....BBBB....BBBB"
+};

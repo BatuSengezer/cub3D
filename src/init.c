@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:56:47 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/05 13:39:16 by jbeck            ###   ########.fr       */
+/*   Updated: 2024/12/07 01:51:29 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,23 @@ void	init_scenery(t_scenery *scenery)
 
 void	init_textures(t_textures *textures)
 {
-	textures->north = NULL;
-	textures->south = NULL;
-	textures->west = NULL;
-	textures->east = NULL;
+	int	i;
+
+	i = 0;
+	textures->path_n = NULL;
+	textures->path_s = NULL;
+	textures->path_w = NULL;
+	textures->path_e = NULL;
+	textures->tex_n = NULL;
+	textures->tex_s = NULL;
+	textures->tex_w = NULL;
+	textures->tex_e = NULL;
+	textures->tex = malloc(sizeof(t_tex_img *) * 4);
+	if (textures->tex)
+	{
+		while (i < 4)
+			textures->tex[i++] = NULL;
+	}
 	textures->floor = NULL;
 	textures->ceiling = NULL;
 }
@@ -53,8 +66,8 @@ void	init_player(t_player *player)
 	player->x = 0;
 	player->y = 0;
 	player->angle = 0;
-	player->speed = 15;
-	player->angle_speed = 0.1;
+	player->speed = 5;
+	player->angle_speed = 0.05;
 	player->key_up = 0;
 	player->key_down = 0;
 	player->key_left = 0;

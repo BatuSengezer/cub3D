@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_scene.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:32:19 by joschka           #+#    #+#             */
-/*   Updated: 2024/11/21 14:44:04 by joschka          ###   ########.fr       */
+/*   Updated: 2024/12/07 01:51:08 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,10 @@ int	check_elements(char **scene)
 	while (scene[i])
 	{
 		j = skip_space(scene[i]);
-		if (!ft_strncmp(&scene[i][j], "NO ", 3)
-			|| !ft_strncmp(&scene[i][j], "SO ", 3)
-			|| !ft_strncmp(&scene[i][j], "WE ", 3)
-			|| !ft_strncmp(&scene[i][j], "EA ", 3)
-			|| !ft_strncmp(&scene[i][j], "F ", 2)
-			|| !ft_strncmp(&scene[i][j], "C ", 2)
+		if (!ft_strncmp(&scene[i][j], "NO ", 3) || !ft_strncmp(&scene[i][j],
+				"SO ", 3) || !ft_strncmp(&scene[i][j], "WE ", 3)
+			|| !ft_strncmp(&scene[i][j], "EA ", 3) || !ft_strncmp(&scene[i][j],
+				"F ", 2) || !ft_strncmp(&scene[i][j], "C ", 2)
 			|| !ft_strncmp(&scene[i][j], "1", 1))
 			i++;
 		else
@@ -52,10 +50,9 @@ static int	check_chars(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] != ' ' && str[i] != '1'
-			&& str[i] != '0' && str[i] != 'N'
-			&& str[i] != 'S' && str[i] != 'E'
-			&& str[i] != 'W' && str[i] != '\n')
+		if (str[i] != ' ' && str[i] != '1' && str[i] != '0' && str[i] != 'N'
+			&& str[i] != 'S' && str[i] != 'E' && str[i] != 'W'
+			&& str[i] != '\n')
 			return (1);
 		i++;
 	}

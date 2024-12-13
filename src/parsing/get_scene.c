@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_scene.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:27:27 by joschka           #+#    #+#             */
-/*   Updated: 2024/11/21 10:00:34 by joschka          ###   ########.fr       */
+/*   Updated: 2024/12/07 01:51:16 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static int	emptystr(char *str)
 	i = 0;
 	while (str[i] && flag == 1)
 	{
-		if (str[i] == ' ' || str[i] == '\n'
-			|| str[i] == '\t' || str[i] == '\v'
+		if (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v'
 			|| str[i] == '\f' || str[i] == '\r')
 			i++;
 		else

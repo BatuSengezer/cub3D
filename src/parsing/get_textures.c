@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_textures.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschka <joschka@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 14:43:40 by jbeck             #+#    #+#             */
-/*   Updated: 2024/11/21 14:41:55 by joschka          ###   ########.fr       */
+/*   Updated: 2024/12/07 02:31:18 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	check_xpm_extension(char *path)
 	size_t	len;
 
 	len = ft_strlen(path);
-	if (path[len - 1] != 'm' || path[len - 2] != 'p'
-		|| path[len - 3] != 'x' || path[len - 4] != '.')
+	if (path[len - 1] != 'm' || path[len - 2] != 'p' || path[len - 3] != 'x'
+		|| path[len - 4] != '.')
 		return (1);
 	return (0);
 }
@@ -27,7 +27,8 @@ static int	check_xpm_file(char *path)
 {
 	int	fd;
 
-	fd = open(path, __O_DIRECTORY);
+	// fd = open(path, __O_DIRECTORY);
+	fd = open(path, O_DIRECTORY); // macos
 	if (fd > 0)
 	{
 		close(fd);
@@ -91,14 +92,62 @@ int	get_textures(t_data *data)
 			break ;
 		j = skip_space(arr[i]);
 		if (!ft_strncmp(&arr[i][j], "NO", 2) && !ret)
-			ret = save_texture(arr[i], &data->textures.north);
+			ret = save_texture(arr[i], &data->textures.path_n);
 		if (!ft_strncmp(&arr[i][j], "SO", 2) && !ret)
-			ret = save_texture(arr[i], &data->textures.south);
+			ret = save_texture(arr[i], &data->textures.path_s);
 		if (!ft_strncmp(&arr[i][j], "EA", 2) && !ret)
-			ret = save_texture(arr[i], &data->textures.east);
+			ret = save_texture(arr[i], &data->textures.path_e);
 		if (!ft_strncmp(&arr[i][j], "WE", 2) && !ret)
-			ret = save_texture(arr[i], &data->textures.west);
+			ret = save_texture(arr[i], &data->textures.path_w);
 		i++;
 	}
 	return (ret);
+}
+
+t_tex_img	*load_texture(void *mlx, char *path)
+{
+	t_tex_img	*tex;
+
+	tex = malloc(sizeof(t_tex_img));
+	if (!tex)
+		return (NULL);
+	tex->img = mlx_xpm_file_to_image(mlx, path, &tex->width, &tex->height);
+	if (!tex->img)
+	{
+		free(tex);
+		return (NULL);
+	}
+	tex->addr = mlx_get_data_addr(tex->img, &tex->bits_per_pixel,
+			&tex->line_length, &tex->endian);
+	return (tex);
+}
+
+int	load_all_textures(t_data *data)
+{
+	// Load North texture
+	data->textures.tex_n = load_texture(data->game.mlx,
+			data->textures.path_n[1]);
+	if (!data->textures.tex_n)
+		return (1);
+	// Load South texture
+	data->textures.tex_s = load_texture(data->game.mlx,
+			data->textures.path_s[1]);
+	if (!data->textures.tex_s)
+		return (1);
+	// Load East texture
+	data->textures.tex_e = load_texture(data->game.mlx,
+			data->textures.path_e[1]);
+	if (!data->textures.tex_e)
+		return (1);
+	// Load West texture
+	data->textures.tex_w = load_texture(data->game.mlx,
+			data->textures.path_w[1]);
+	if (!data->textures.tex_w)
+		return (1);
+	// Set up the texture array
+	data->textures.tex[0] = data->textures.tex_n; // North
+	data->textures.tex[1] = data->textures.tex_s; // South
+	data->textures.tex[2] = data->textures.tex_e; // East
+	data->textures.tex[3] = data->textures.tex_w; // West
+	return (0);
 }
