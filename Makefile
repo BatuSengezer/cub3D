@@ -6,7 +6,7 @@
 #    By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/06 11:18:15 by joschka           #+#    #+#              #
-#    Updated: 2024/12/07 22:30:18 by bsengeze         ###   ########.fr        #
+#    Updated: 2024/12/13 07:13:59 by bsengeze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,11 @@ SRCS	:=	./src/main.c \
 			./src/game/key_hooks.c \
 			./src/game/raycasting.c \
 			./src/game/minimap.c \
+			./src/game/minimap_2.c \
+			./src/parsing/check_xpm.c \
+			./src/game/get_player.c \
+			./src/init_2.c \
+			./src/cleanup.c \
 
 OBJS	:= ${SRCS:.c=.o}
 

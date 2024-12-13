@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:56:47 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/07 01:51:29 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 07:10:14 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,6 @@ void	init_scenery(t_scenery *scenery)
 	scenery->s_path = NULL;
 	scenery->lcount = 0;
 	scenery->fd = 0;
-}
-
-void	init_textures(t_textures *textures)
-{
-	int	i;
-
-	i = 0;
-	textures->path_n = NULL;
-	textures->path_s = NULL;
-	textures->path_w = NULL;
-	textures->path_e = NULL;
-	textures->tex_n = NULL;
-	textures->tex_s = NULL;
-	textures->tex_w = NULL;
-	textures->tex_e = NULL;
-	textures->tex = malloc(sizeof(t_tex_img *) * 4);
-	if (textures->tex)
-	{
-		while (i < 4)
-			textures->tex[i++] = NULL;
-	}
-	textures->floor = NULL;
-	textures->ceiling = NULL;
-}
-
-void	init_map(t_map *map)
-{
-	map->width = 0;
-	map->height = 0;
-	map->map_tab = NULL;
-	map->not_surrounded = 0;
-	map->player_count = 0;
 }
 
 void	init_img(t_img *img)

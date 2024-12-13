@@ -6,62 +6,11 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 14:43:40 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/07 02:31:18 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 06:51:39 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-static int	check_xpm_extension(char *path)
-{
-	size_t	len;
-
-	len = ft_strlen(path);
-	if (path[len - 1] != 'm' || path[len - 2] != 'p' || path[len - 3] != 'x'
-		|| path[len - 4] != '.')
-		return (1);
-	return (0);
-}
-
-static int	check_xpm_file(char *path)
-{
-	int	fd;
-
-	// fd = open(path, __O_DIRECTORY);
-	fd = open(path, O_DIRECTORY); // macos
-	if (fd > 0)
-	{
-		close(fd);
-		return (print_error(path, ERR_DIR, 1));
-	}
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		return (print_error(path, strerror(errno), errno));
-	close(fd);
-	if (check_xpm_extension(path))
-		return (print_error(path, ERR_XPM, 1));
-	return (0);
-}
-
-static int	check_array(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		if (i == 1)
-			cut_newline(arr);
-		if (i == 1 && check_xpm_file(arr[i]))
-			return (1);
-		i++;
-	}
-	if (i == 1)
-		return (print_error(arr[0], ERR_TEX, 1));
-	if (i > 2)
-		return (print_error(arr[0], ERR_TEXT, 1));
-	return (0);
-}
 
 static int	save_texture(char *str, char ***arr)
 {
@@ -124,30 +73,25 @@ t_tex_img	*load_texture(void *mlx, char *path)
 
 int	load_all_textures(t_data *data)
 {
-	// Load North texture
 	data->textures.tex_n = load_texture(data->game.mlx,
 			data->textures.path_n[1]);
 	if (!data->textures.tex_n)
 		return (1);
-	// Load South texture
 	data->textures.tex_s = load_texture(data->game.mlx,
 			data->textures.path_s[1]);
 	if (!data->textures.tex_s)
 		return (1);
-	// Load East texture
 	data->textures.tex_e = load_texture(data->game.mlx,
 			data->textures.path_e[1]);
 	if (!data->textures.tex_e)
 		return (1);
-	// Load West texture
 	data->textures.tex_w = load_texture(data->game.mlx,
 			data->textures.path_w[1]);
 	if (!data->textures.tex_w)
 		return (1);
-	// Set up the texture array
-	data->textures.tex[0] = data->textures.tex_n; // North
-	data->textures.tex[1] = data->textures.tex_s; // South
-	data->textures.tex[2] = data->textures.tex_e; // East
-	data->textures.tex[3] = data->textures.tex_w; // West
+	data->textures.tex[0] = data->textures.tex_n;
+	data->textures.tex[1] = data->textures.tex_s;
+	data->textures.tex[2] = data->textures.tex_e;
+	data->textures.tex[3] = data->textures.tex_w;
 	return (0);
 }

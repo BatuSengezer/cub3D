@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:47:53 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/12 22:33:56 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 07:18:38 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
+
 // macos
 # ifndef O_DIRECTORY
 #  define O_DIRECTORY 0200000
@@ -83,6 +84,11 @@ typedef struct s_player
 	int			right_rotate;
 }				t_player;
 
+typedef struct s_angle
+{
+	float		cos;
+	float		sin;
+}				t_angle;
 typedef struct s_img
 {
 	void		*img_ptr;
@@ -122,24 +128,24 @@ typedef struct s_tex_img
 }				t_tex_img;
 typedef struct s_textures
 {
-	char **path_n;    // Path to texture
-	char **path_s;    // Path to texture
-	char **path_w;    // Path to texture
-	char **path_e;    // Path to texture
-	t_tex_img *tex_n; // Loaded texture
-	t_tex_img *tex_s; // Loaded texture
-	t_tex_img *tex_w; // Loaded texture
-	t_tex_img *tex_e; // Loaded texture
-	t_tex_img **tex;  // Changed to pointer to array
+	char		**path_n;
+	char		**path_s;
+	char		**path_w;
+	char		**path_e;
+	t_tex_img	*tex_n;
+	t_tex_img	*tex_s;
+	t_tex_img	*tex_w;
+	t_tex_img	*tex_e;
+	t_tex_img	**tex;
 	int			*floor;
 	int			*ceiling;
 }				t_textures;
 
 typedef struct s_ray
 {
-	float distance; // Distance to the wall
-	int direction;  // 0=NO, 1=SO, 2=EA, 3=WE
-	float wall_x;   // Exact hit position (0-1)
+	float		distance;
+	int			direction;
+	float		wall_x;
 	float		step_x;
 	float		step_y;
 	int			side;
@@ -196,7 +202,16 @@ int				collision(t_data *data, int x, int y);
 void			raycasting(int x, int y, t_data *data);
 t_tex_img		*load_texture(void *mlx, char *path);
 void			draw_minimap(t_data *data);
-// DEBUG
+int				check_xpm_extension(char *path);
+int				check_xpm_file(char *path);
+int				check_array(char **arr);
+void			get_player_angle(char c, t_player *player);
+void			get_player_pos(t_data *data);
+void			draw_player_dot(t_data *data, float px, float py);
+void			draw_direction_line(t_data *data, float px, float py);
+void			init_textures(t_textures *textures);
+void			init_map(t_map *map);
+
 void			print_array(char **arr);
 void			print_colorcode(int *color);
 

@@ -6,49 +6,11 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:44:23 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/07 01:50:57 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 07:01:20 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <stdio.h>
-
-void	get_player_angle(char c, t_player *player)
-{
-	if (c == 'N')
-		player->angle = (3 * PI) / 2;
-	if (c == 'S')
-		player->angle = PI / 2;
-	if (c == 'E')
-		player->angle = 2 * PI;
-	if (c == 'W')
-		player->angle = PI;
-}
-
-void	get_player_pos(t_data *data)
-{
-	int		i;
-	int		k;
-	char	c;
-
-	i = 0;
-	while (data->map.map_tab[i])
-	{
-		k = 0;
-		while (data->map.map_tab[i][k])
-		{
-			c = data->map.map_tab[i][k];
-			if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
-			{
-				data->game.player.x = k * BLOCK + (BLOCK / 2);
-				data->game.player.y = i * BLOCK + (BLOCK / 2);
-				get_player_angle(c, &data->game.player);
-			}
-			k++;
-		}
-		i++;
-	}
-}
 
 void	rotate(t_player *player)
 {
@@ -62,38 +24,42 @@ void	rotate(t_player *player)
 		player->angle = 2 * PI;
 }
 
-void	move(t_player *player, t_data *data)
+static void	calculate_movement(t_player *player, t_angle angle, float *new_x,
+		float *new_y)
 {
-	float	cos_angle;
-	float	sin_angle;
-	float	new_x;
-	float	new_y;
-
-	cos_angle = cos(player->angle);
-	sin_angle = sin(player->angle);
-	new_x = player->x;
-	new_y = player->y;
 	if (player->key_up)
 	{
-		new_x += cos_angle * player->speed;
-		new_y += sin_angle * player->speed;
+		*new_x += angle.cos * player->speed;
+		*new_y += angle.sin * player->speed;
 	}
 	if (player->key_down)
 	{
-		new_x -= cos_angle * player->speed;
-		new_y -= sin_angle * player->speed;
+		*new_x -= angle.cos * player->speed;
+		*new_y -= angle.sin * player->speed;
 	}
 	if (player->key_left)
 	{
-		new_x += sin_angle * player->speed;
-		new_y -= cos_angle * player->speed;
+		*new_x += angle.sin * player->speed;
+		*new_y -= angle.cos * player->speed;
 	}
 	if (player->key_right)
 	{
-		new_x -= sin_angle * player->speed;
-		new_y += cos_angle * player->speed;
+		*new_x -= angle.sin * player->speed;
+		*new_y += angle.cos * player->speed;
 	}
-	// Not checking for collision here caused wall problems
+}
+
+void	move(t_player *player, t_data *data)
+{
+	t_angle	angle;
+	float	new_x;
+	float	new_y;
+
+	angle.cos = cos(player->angle);
+	angle.sin = sin(player->angle);
+	new_x = player->x;
+	new_y = player->y;
+	calculate_movement(player, angle, &new_x, &new_y);
 	if (!collision(data, new_x, new_y))
 	{
 		player->x = new_x;
