@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:53:31 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/13 03:37:55 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 04:16:15 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 	float	side_dist_y;
 	int		map_x;
 	int		map_y;
-	float	exact_x;
-	float	exact_y;
 	int		side;
 
 	step_x = cos(angle);
@@ -46,16 +44,12 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 			side_dist_x += delta_x;
 			map_x += (step_x > 0) ? 1 : -1;
 			side = 0;
-			exact_x = (map_x % BLOCK) / (float)BLOCK;
-			// exact_y = y + (map_x - x) * step_y / step_x;
 		}
 		else
 		{
 			side_dist_y += delta_y;
 			map_y += (step_y > 0) ? 1 : -1;
 			side = 1;
-			exact_y = (map_y % BLOCK) / (float)BLOCK;
-			// exact_x = x + (map_y - y) * step_x / step_y;
 		}
 		x = map_x;
 		y = map_y;
@@ -64,17 +58,15 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 	if (side == 0)
 	{                                         // Vertical wall (East/West)
 		ray.direction = (step_x > 0) ? 3 : 2; // 3=West, 2=East
-		ray.wall_x = exact_y;
+		ray.wall_x = (y / BLOCK) - floor(y / BLOCK);
 	}
 	else
 	{                                         // Horizontal wall (North/South)
 		ray.direction = (step_y > 0) ? 1 : 0; // 1=South, 0=North
-		ray.wall_x = exact_x;
+		ray.wall_x = (x / BLOCK) - floor(x / BLOCK);
 	}
 	ray.distance = sqrt(pow(x - data->game.player.x, 2) + pow(y
 				- data->game.player.y, 2));
-	/* printf(" exact_x: %f, exact_y: %f, wall_x: %f, distance: %f, side: %d\n",
-		exact_x, exact_y, ray.wall_x, ray.distance, side); */
 	ray.distance *= cos(angle - data->game.player.angle); // Fix fisheye
 	return (ray);
 }
