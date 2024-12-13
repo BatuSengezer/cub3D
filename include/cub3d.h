@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:47:53 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/07 22:29:45 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/12 22:33:56 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,9 @@ typedef struct s_ray
 	float distance; // Distance to the wall
 	int direction;  // 0=NO, 1=SO, 2=EA, 3=WE
 	float wall_x;   // Exact hit position (0-1)
+	float		step_x;
+	float		step_y;
+	int			side;
 }				t_ray;
 
 typedef struct s_scenery

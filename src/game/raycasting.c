@@ -6,61 +6,12 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:53:31 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/07 22:28:38 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 03:37:55 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-static void	draw_vertical_line(t_data *data, int x, int wall_height)
-{
-		int	draw_start;
-		int	draw_end;
-		int	y;
-		int	c_color;
-		int	f_color;
-
-		c_color = get_rgb(data->textures.ceiling);
-		f_color = get_rgb(data->textures.floor);
-		draw_start = (HEIGHT - wall_height) / 2;
-		draw_end = draw_start + wall_height;
-		y = 0;
-		// Draw ceiling
-		while (y < draw_start)
-				my_pixel_put(&data->game.img, x, y++, c_color);
-		// Draw wall
-		while (y < draw_end)
-				my_pixel_put(&data->game.img, x, y++, 0xFFFFFF);
-		// Draw floor
-		while (y < HEIGHT)
-				my_pixel_put(&data->game.img, x, y++, f_color);
-}
-
-static float	get_wall_distance(t_data *data, float start_x, float x, float y)
-{
-		float	distance;
-		float	ray_x;
-		float	ray_y;
-		float	cos_angle;
-		float	sin_angle;
-
-		distance = 0;
-		cos_angle = cos(start_x);
-		sin_angle = sin(start_x);
-		ray_x = x;
-		ray_y = y;
-		while (distance < (WIDTH + HEIGHT))
-		{
-				if (collision(data, ray_x, ray_y))
-						break ;
-				ray_x += cos_angle * 0.5;
-				ray_y += sin_angle * 0.5;
-				distance += 0.5;
-		}
-		return (distance * cos(start_x - data->game.player.angle));
-}
- */
 static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 {
 	t_ray	ray;
@@ -95,16 +46,16 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 			side_dist_x += delta_x;
 			map_x += (step_x > 0) ? 1 : -1;
 			side = 0;
-			exact_x = map_x;
-			exact_y = y + (map_x - x) * step_y / step_x;
+			exact_x = (map_x % BLOCK) / (float)BLOCK;
+			// exact_y = y + (map_x - x) * step_y / step_x;
 		}
 		else
 		{
 			side_dist_y += delta_y;
 			map_y += (step_y > 0) ? 1 : -1;
 			side = 1;
-			exact_y = map_y;
-			exact_x = x + (map_y - y) * step_x / step_y;
+			exact_y = (map_y % BLOCK) / (float)BLOCK;
+			// exact_x = x + (map_y - y) * step_x / step_y;
 		}
 		x = map_x;
 		y = map_y;
@@ -113,15 +64,17 @@ static t_ray	get_wall_hit(t_data *data, float angle, float x, float y)
 	if (side == 0)
 	{                                         // Vertical wall (East/West)
 		ray.direction = (step_x > 0) ? 3 : 2; // 3=West, 2=East
-		ray.wall_x = exact_y - floor(exact_y);
+		ray.wall_x = exact_y;
 	}
 	else
 	{                                         // Horizontal wall (North/South)
 		ray.direction = (step_y > 0) ? 1 : 0; // 1=South, 0=North
-		ray.wall_x = exact_x - floor(exact_x);
+		ray.wall_x = exact_x;
 	}
 	ray.distance = sqrt(pow(x - data->game.player.x, 2) + pow(y
 				- data->game.player.y, 2));
+	/* printf(" exact_x: %f, exact_y: %f, wall_x: %f, distance: %f, side: %d\n",
+		exact_x, exact_y, ray.wall_x, ray.distance, side); */
 	ray.distance *= cos(angle - data->game.player.angle); // Fix fisheye
 	return (ray);
 }
