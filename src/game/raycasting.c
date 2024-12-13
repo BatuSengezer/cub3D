@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:53:31 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/13 05:28:05 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:13:39 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,15 +133,12 @@ void	raycasting(int x, int y, t_data *data)
 	int		wall_height;
 	int		i;
 
-	(void)x; // Suppress unused parameter warning
-	(void)y; // Suppress unused parameter warning
 	fraction = PI / 3 / WIDTH;
 	start_x = data->game.player.angle - PI / 6;
 	i = 0;
 	while (i < WIDTH)
 	{
-		ray = get_wall_hit(data, start_x, data->game.player.x,
-				data->game.player.y);
+		ray = get_wall_hit(data, start_x, x, y);
 		wall_height = (BLOCK * HEIGHT) / ray.distance;
 		draw_textured_line(data, i, wall_height, ray);
 		start_x += fraction;

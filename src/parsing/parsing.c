@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 17:00:57 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/07 01:51:27 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:40:09 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static int	check_cub_file(char *path)
 {
 	int	fd;
 
-	// fd = open(path, __O_DIRECTORY);
-	fd = open(path, O_DIRECTORY); // macos
+	fd = open(path, O_DIRECTORY);
 	if (fd > 0)
 	{
 		close(fd);

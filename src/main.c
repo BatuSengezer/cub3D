@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:05:26 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/07 01:51:35 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:58:34 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ int	main(int argc, char **argv)
 		return (print_error(NULL, ERR_USAGE, 1));
 	init(&data);
 	if (parsing(argv[1], &data))
+	{
+		free(data.textures.tex);
 		return (1);
+	}
 	game(&data);
 	squeaky_clean(&data);
 	return (0);

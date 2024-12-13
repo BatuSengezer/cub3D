@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 07:13:35 by bsengeze          #+#    #+#             */
-/*   Updated: 2024/12/13 07:16:46 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:45:59 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ void	squeaky_clean(t_data *data)
 	cleanup_textures(data);
 	if (data->scenery.scene)
 		free_array(data->scenery.scene);
+	if (data->textures.path_n)
+		free_array(data->textures.path_n);
+	if (data->textures.path_s)
+		free_array(data->textures.path_s);
+	if (data->textures.path_w)
+		free_array(data->textures.path_w);
+	if (data->textures.path_e)
+		free_array(data->textures.path_e);
 	if (data->textures.floor)
 		free(data->textures.floor);
 	if (data->textures.ceiling)

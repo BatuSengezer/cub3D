@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_xpm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 06:46:10 by bsengeze          #+#    #+#             */
-/*   Updated: 2024/12/13 06:48:20 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 13:38:27 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int	check_xpm_file(char *path)
 {
 	int	fd;
 
-	// fd = open(path, __O_DIRECTORY);
-	fd = open(path, O_DIRECTORY); // macos
+	fd = open(path, O_DIRECTORY);
 	if (fd > 0)
 	{
 		close(fd);

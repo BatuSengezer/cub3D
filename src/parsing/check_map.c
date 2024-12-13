@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 19:27:43 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/07 01:51:05 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:05:33 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static void	run_checks(t_map *map)
 int	check_map(t_map *map)
 {
 	run_checks(map);
-	print_array(map->map_tab);
 	if (map->not_surrounded)
 	{
 		print_error(NULL, ERR_WALL, 1);

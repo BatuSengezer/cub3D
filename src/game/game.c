@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: jbeck <jbeck@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 15:40:06 by joschka           #+#    #+#             */
-/*   Updated: 2024/12/07 01:50:52 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:10:13 by jbeck            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,6 @@ int	draw_loop(t_data *data)
 {
 	move_player(&data->game.player, data);
 	clear_image(&data->game.img);
-	if (DEBUG)
-	{
-		draw_map(data);
-		draw_square(data->game.player.x, data->game.player.y, 5, &data->game);
-	}
 	raycasting(data->game.player.x, data->game.player.y, data);
 	mlx_put_image_to_window(data->game.mlx, data->game.win,
 		data->game.img.img_ptr, 0, 0);
