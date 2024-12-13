@@ -6,7 +6,7 @@
 /*   By: bsengeze <bsengeze@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 13:53:31 by jbeck             #+#    #+#             */
-/*   Updated: 2024/12/13 04:16:15 by bsengeze         ###   ########.fr       */
+/*   Updated: 2024/12/13 05:28:05 by bsengeze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,32 +82,34 @@ static void	draw_textured_line(t_data *data, int x, int wall_height, t_ray ray)
 	char		*pixel;
 	int			color;
 	int			y;
+	int			y_start;
+	int			y_end;
 
 	draw_start = (HEIGHT - wall_height) / 2;
-	if (draw_start < 0)
-		draw_start = 0;
 	draw_end = draw_start + wall_height;
-	if (draw_end >= HEIGHT)
-		draw_end = HEIGHT - 1;
+	y_start = (draw_start < 0) ? 0 : draw_start;
+	y_end = (draw_end >= HEIGHT) ? HEIGHT - 1 : draw_end;
 	tex = data->textures.tex[ray.direction];
 	tex_x = (int)(ray.wall_x * tex->width);
 	if (tex_x >= tex->width)
 		tex_x = tex->width - 1;
 	// Draw ceiling
 	y = 0;
-	while (y < draw_start)
+	while (y < y_start)
 	{
 		my_pixel_put(&data->game.img, x, y, get_rgb(data->textures.ceiling));
 		y++;
 	}
-	// Draw wall
-	y = draw_start;
-	while (y < draw_end)
+	// Draw wall with adjusted texture scaling
+	y = y_start;
+	while (y < y_end)
 	{
 		tex_pos = (float)(y - draw_start) / wall_height;
 		tex_y = (int)(tex_pos * tex->height);
 		if (tex_y >= tex->height)
 			tex_y = tex->height - 1;
+		if (tex_y < 0)
+			tex_y = 0;
 		pixel = tex->addr + (tex_y * tex->line_length + tex_x
 				* (tex->bits_per_pixel / 8));
 		color = *(unsigned int *)pixel;
@@ -115,7 +117,7 @@ static void	draw_textured_line(t_data *data, int x, int wall_height, t_ray ray)
 		y++;
 	}
 	// Draw floor
-	y = draw_end;
+	y = y_end;
 	while (y < HEIGHT)
 	{
 		my_pixel_put(&data->game.img, x, y, get_rgb(data->textures.floor));
@@ -141,8 +143,6 @@ void	raycasting(int x, int y, t_data *data)
 		ray = get_wall_hit(data, start_x, data->game.player.x,
 				data->game.player.y);
 		wall_height = (BLOCK * HEIGHT) / ray.distance;
-		if (wall_height > HEIGHT)
-			wall_height = HEIGHT;
 		draw_textured_line(data, i, wall_height, ray);
 		start_x += fraction;
 		i++;
