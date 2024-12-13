@@ -1,15 +1,17 @@
 
-NO   ./textures/n_tex.xpm
-SO  ./textures/s_tex.xpm
+NO   ./textures/debug/n_tex.xpm
+SO  ./textures/debug/s_tex.xpm
 
 F 34,139,34
-WE   ./textures/w_tex.xpm
-EA   ./textures/e_tex.xpm
+WE   ./textures/debug/w_tex.xpm
+EA   ./textures/debug/e_tex.xpm
 
 C   20,+20,235
 
-11111
-10001
-10001
-10N01
-11111
+11111111
+10000001
+10100001
+100000011111
+100000000001
+10N000011111
+11111111

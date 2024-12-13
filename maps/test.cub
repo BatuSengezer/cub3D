@@ -1,10 +1,10 @@
 
-NO   ./textures/n_tex.xpm
-SO  ./textures/s_tex.xpm
+NO   ./textures/forest/brick.xpm
+SO  ./textures/forest/grass.xpm
 
 F 34,139,34
-WE   ./textures/w_tex.xpm
-EA   ./textures/w_tex.xpm
+WE   ./textures/forest/wood3.xpm
+EA   ./textures/forest/wood.xpm
 
 C   20,20,235
 
